@@ -911,20 +911,9 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
   }
 
 };
-    const updatedAssets = assets.map((a) => {
-      // realistic small random price variation between -1.8% to +2.4%
-      const deltaPercent = (Math.random() * 4.2 - 1.8);
-      const newPrice = Math.max(0.01, a.currentPrice * (1 + deltaPercent / 100));
-      return {
-        ...a,
-        currentPrice: Number(newPrice.toFixed(2)),
-        dailyChangePercent: Number((a.dailyChangePercent + deltaPercent * 0.4).toFixed(2)),
-        updatedAt: Date.now(),
-      };
-    });
-    setAssets(updatedAssets);
-    syncToFirestore(updatedAssets);
-  };
+    // RESET TO DEFAULT
+
+  const resetToSampleData = async () => {
 
   // RESET TO DEFAULT
   const resetToSampleData = async () => {
