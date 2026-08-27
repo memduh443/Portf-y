@@ -1043,7 +1043,7 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
         resetToSampleData,
         loginWithGoogle,
         logout,
-      }}
+      }
     >
       {children}
     </PortfolioContext.Provider>
