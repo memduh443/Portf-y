@@ -1,0 +1,6 @@
+{
+  "name": "Portföy Kokpiti",
+  "description": "BIST, kripto, fon/ETF, döviz ve altın için kapsamlı, renkli ve modern kişisel yatırım takip kokpiti.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

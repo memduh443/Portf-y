@@ -1,0 +1,49 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User portfolio and account document",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "description": "User email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User display name"
+        },
+        "assets": {
+          "type": "array",
+          "description": "List of portfolio assets owned by the user"
+        },
+        "transactions": {
+          "type": "array",
+          "description": "List of buy, sell, deposit, and withdraw transactions"
+        },
+        "watchlist": {
+          "type": "array",
+          "description": "List of tracked symbols in user watchlist"
+        },
+        "cashBalance": {
+          "type": "number",
+          "description": "User uninvested cash balance in TRY"
+        },
+        "alerts": {
+          "type": "array",
+          "description": "List of user target price alerts"
+        },
+        "updatedAt": {
+          "type": "number",
+          "description": "Last update timestamp"
+        }
+      }
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "User portfolio configuration, assets, transactions, watchlist and cash"
+    }
+  }
+}
