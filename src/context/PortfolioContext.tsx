@@ -780,7 +780,137 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
   };
 
   // LIVE SIMULATED PRICE FLICKER / REFRESH
-  const refreshAllPrices = () => {
+  const refreshAllPrices = async () => {
+
+  try {
+
+    const response = await fetch('/api/market-prices', {
+
+      method: 'POST',
+
+      headers: {
+
+        'Content-Type': 'application/json',
+
+      },
+
+      body: JSON.stringify({
+
+        assets: assets.map((a) => ({
+
+          id: a.id,
+
+          symbol: a.symbol,
+
+          category: a.category,
+
+        })),
+
+        watchlist: watchlist.map((w) => ({
+
+          id: w.id,
+
+          symbol: w.symbol,
+
+          category: w.category,
+
+        })),
+
+      }),
+
+    });
+
+    if (!response.ok) {
+
+      throw new Error(`Fiyat servisi hatası: ${response.status}`);
+
+    }
+
+    const data = await response.json();
+
+    const prices = data.prices || {};
+
+    const updatedAssets = assets.map((asset) => {
+
+      const quote = prices[asset.symbol.toUpperCase()];
+
+      if (!quote || typeof quote.price !== 'number') {
+
+        return asset;
+
+      }
+
+      return {
+
+        ...asset,
+
+        currentPrice: Number(quote.price.toFixed(4)),
+
+        dailyChangePercent:
+
+          typeof quote.changePercent === 'number'
+
+            ? Number(quote.changePercent.toFixed(2))
+
+            : asset.dailyChangePercent,
+
+        updatedAt: Date.now(),
+
+      };
+
+    });
+
+    const updatedWatchlist = watchlist.map((item) => {
+
+      const quote = prices[item.symbol.toUpperCase()];
+
+      if (!quote || typeof quote.price !== 'number') {
+
+        return item;
+
+      }
+
+      return {
+
+        ...item,
+
+        price: Number(quote.price.toFixed(4)),
+
+        changePercent:
+
+          typeof quote.changePercent === 'number'
+
+            ? Number(quote.changePercent.toFixed(2))
+
+            : item.changePercent,
+
+        updatedAt: Date.now(),
+
+      };
+
+    });
+
+    setAssets(updatedAssets);
+
+    setWatchlist(updatedWatchlist);
+
+    await syncToFirestore(
+
+      updatedAssets,
+
+      undefined,
+
+      updatedWatchlist
+
+    );
+
+  } catch (error) {
+
+    console.error('Canlı fiyat güncelleme hatası:', error);
+
+  }
+
+};
     const updatedAssets = assets.map((a) => {
       // realistic small random price variation between -1.8% to +2.4%
       const deltaPercent = (Math.random() * 4.2 - 1.8);
