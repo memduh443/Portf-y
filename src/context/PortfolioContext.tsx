@@ -1048,7 +1048,7 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
       {children}
     </PortfolioContext.Provider>
   );
-};
+  };
 
 export const usePortfolio = () => {
   const context = useContext(PortfolioContext);
