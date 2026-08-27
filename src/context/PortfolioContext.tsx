@@ -925,7 +925,7 @@ export const PortfolioProvider: React.FC<{ children: ReactNode }> = ({ children 
       await signInWithGoogle();
     } catch (err) {
       console.error('Login error:', err);
-    
+    }
   };
 
   const logout = async () => {
